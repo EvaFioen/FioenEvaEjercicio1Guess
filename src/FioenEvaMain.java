@@ -123,7 +123,7 @@ public class FioenEvaMain {
         remainingTurns--;
         System.out.println("Remaining turns: "+ remainingTurns);
         System.out.println("Incorrect letters: " + wrongLetters);
-        System.out.println("Points: "+points);
+        System.out.println("Points: "+ points);
 
         if (!maskedMovie.contains("*")) {
             System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
@@ -135,11 +135,18 @@ public class FioenEvaMain {
 
     public void guessMovie(){
         System.out.println("Guess the movie");
-        String guessedMovie = input.nextLine();
+        String guessedMovie = input.nextLine().toLowerCase();
 
-
-        remainingTurns--;
-        System.out.println("Remaining turns: "+ remainingTurns);
+        if (guessedMovie.equals(randomMovie)) {
+            System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
+            points += 20;
+        } else {
+            System.out.println("Incorrect guess. Game over!");
+            System.out.println("The movie was: " + randomMovie);
+            points -= 20; // Subtract points for incorrect guess
+        }
+        out = true;
+        System.out.println("Points: " + points);
     }
 
     public void salirJuego(){
