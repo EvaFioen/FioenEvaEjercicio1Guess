@@ -1,14 +1,18 @@
-import java.io.File;
+package GuessGame;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
+
 
 public class FioenEvaMain {
     public static void main(String[] args) {
         FioenEvaMain programa = new FioenEvaMain();
         programa.inicio();
     }
+
     Scanner input = new Scanner(System.in);
     boolean out = false;
     final int maxTurns = 10;
@@ -22,17 +26,22 @@ public class FioenEvaMain {
     String randomMovie;
     String maskedMovie;
 
-    public void inicio(){
+    public void inicio() {
         leerFichero();
 
         randomMovie = getRandomMovie(movies).toLowerCase();
         maskedMovie = randomMovie.replaceAll("[a-zA-Z]", "*");
 
         System.out.println("Guess the movie");
-        System.out.println("You are guessing: "+ maskedMovie);
-        System.out.println("The movie title has "+ randomMovie.length() +" characters (including spaces and punctuation)");
+        System.out.println("You are guessing: " + maskedMovie);
+        System.out.println("The movie title has " + randomMovie.length() + " characters (including spaces and punctuation)");
         System.out.println("Remaining turns: " + maxTurns);
-        System.out.println("Points: " +points);
+        System.out.println("Points: " + points);
+        System.out.println(" ");
+
+
+
+
 
         while (!out && remainingTurns > 0) {
             System.out.println("Choose an option:");
@@ -66,16 +75,19 @@ public class FioenEvaMain {
                 System.out.println("An unexpected error occurred: " + e.getMessage());
                 input.nextLine();
             }
-        } if (remainingTurns == 0 && !out) {
+        }
+        if (remainingTurns == 0 && !out) {
             System.out.println("You've run out of attempts! Game over.");
             salirJuego();
         }
     }
+
     public String getRandomMovie(List<String> movies) {
         Random random = new Random();
         int randomIndex = random.nextInt(movies.size());
         return movies.get(randomIndex);
     }
+
     public void leerFichero() {
         File file = new File("movies.txt");
         try (Scanner scanner = new Scanner(file)) {
@@ -87,7 +99,7 @@ public class FioenEvaMain {
         }
     }
 
-    public void guessLetter(){
+    public void guessLetter() {
         if (remainingTurns > 0) {
             System.out.println("Guess the letter of the movie " + maskedMovie);
 
@@ -123,19 +135,21 @@ public class FioenEvaMain {
             }
         }
         remainingTurns--;
-        System.out.println("Remaining turns: "+ remainingTurns);
+        System.out.println("Remaining turns: " + remainingTurns);
         System.out.println("Incorrect letters: " + wrongLetters);
-        System.out.println("Points: "+ points);
+        System.out.println("Points: " + points);
 
         if (!maskedMovie.contains("*")) {
             System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
             System.out.println("Final points: " + points);
+            writePlayers();
+            readPlayers();
             out = true;
         }
 
     }
 
-    public void guessMovie(){
+    public void guessMovie() {
         System.out.println("Guess the movie");
         String guessedMovie = input.nextLine().toLowerCase();
 
@@ -145,14 +159,63 @@ public class FioenEvaMain {
         } else {
             System.out.println("Incorrect guess. Game over!");
             System.out.println("The movie was: " + randomMovie);
-            points -= 20; // Subtract points for incorrect guess
+            points -= 20;
         }
-        out = true;
         System.out.println("Points: " + points);
+        writePlayers();
+        readPlayers();
+
+        out = true;
     }
 
-    public void salirJuego(){
+    public void salirJuego() {
         System.out.println("The movie was: " + randomMovie);
         out = true;
     }
+
+    public void writePlayers() {
+        ArrayList<FioenEvaPlayer> players = new ArrayList<>();
+
+        System.out.println("Enter your nickname:");
+        String nickname = input.nextLine();
+
+        players.add(new FioenEvaPlayer("Pro", 250));
+        players.add(new FioenEvaPlayer("hi123", 60));
+        players.add(new FioenEvaPlayer("happy", 30));
+        players.add(new FioenEvaPlayer("eva123", 100));
+        players.add(new FioenEvaPlayer(nickname,points));
+
+
+
+        try (FileOutputStream fileOut = new FileOutputStream("ranking.data");
+             ObjectOutputStream output = new ObjectOutputStream(fileOut)) {
+
+            for (FioenEvaPlayer player : players) {
+                output.writeObject(player);
+            }
+            System.out.println("Player added successfully to the ranking.");
+        } catch (Exception e) {
+            System.out.println("Error adding the player to the ranking");
+        }
+    }
+
+    public void readPlayers() {
+        try (FileInputStream fileIn = new FileInputStream("ranking.data");
+             ObjectInputStream input = new ObjectInputStream(fileIn)) {
+
+            System.out.println("Ranking:");
+
+            while (true) {
+                try {
+                    FioenEvaPlayer player = (FioenEvaPlayer) input.readObject();
+                    System.out.println(player);
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading the file");
+        }
+    }
 }
+
