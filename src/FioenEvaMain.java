@@ -1,6 +1,7 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.io.PrintStream;
 
 public class FioenEvaMain {
     public static void main(String[] args) {
@@ -9,11 +10,15 @@ public class FioenEvaMain {
     }
     Scanner input = new Scanner(System.in);
     boolean out = false;
+    final int maxTurns = 10;
+    private List<String> movies = new ArrayList<>();
 
     public void inicio(){
+        leerFichero();
+
         System.out.println("Guess the movie");
         System.out.println("The movie title has ,, characters (including spaces and puncuation)");
-        System.out.println("Remaining turns: ..");
+        System.out.println("Remaining turns: " + maxTurns);
         System.out.println("Points: ,,");
         do {
             System.out.println("Choose an option:");
@@ -42,6 +47,16 @@ public class FioenEvaMain {
                 input.nextLine();
             }
         } while (!out);
+    }
+    public void leerFichero() {
+        File file = new File("movies.txt");
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                movies.add(scanner.nextLine());
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong while reading the file: " + e.getMessage());
+        }
     }
 
     public void guesLetter(){
