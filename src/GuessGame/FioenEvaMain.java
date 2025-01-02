@@ -176,16 +176,22 @@ public class FioenEvaMain {
     public void writePlayers() {
         ArrayList<FioenEvaPlayer> players = new ArrayList<>();
 
-        System.out.println("Enter your nickname:");
-        String nickname = input.nextLine();
-
         players.add(new FioenEvaPlayer("Pro", 250));
         players.add(new FioenEvaPlayer("hi123", 60));
         players.add(new FioenEvaPlayer("happy", 30));
         players.add(new FioenEvaPlayer("eva123", 100));
+        players.add(new FioenEvaPlayer("ef", 100));
+
+        System.out.println("Enter your nickname:");
+        String nickname = input.nextLine();
+
         players.add(new FioenEvaPlayer(nickname,points));
 
+        players.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
+        if (players.size() > 5) {
+            players = new ArrayList<>(players.subList(0, 5));
+        }
 
         try (FileOutputStream fileOut = new FileOutputStream("ranking.data");
              ObjectOutputStream output = new ObjectOutputStream(fileOut)) {
