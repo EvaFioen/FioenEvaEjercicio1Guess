@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0244079e-6910-4bb8-a85f-114dfa76fe54" name="Changes" comment="third commit">
+    <list default="true" id="0244079e-6910-4bb8-a85f-114dfa76fe54" name="Changes" comment="4 commit">
       <change beforePath="$PROJECT_DIR$/src/FioenEvaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FioenEvaMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,13 +82,22 @@
       <option name="project" value="LOCAL" />
       <updated>1735835509007</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="4 commit">
+      <option name="closed" value="true" />
+      <created>1735835973450</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1735835973450</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="Second commit" />
     <MESSAGE value="third commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="third commit" />
+    <MESSAGE value="4 commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="4 commit" />
   </component>
 </project>

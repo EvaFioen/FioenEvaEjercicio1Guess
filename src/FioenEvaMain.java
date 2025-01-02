@@ -111,8 +111,10 @@ public class FioenEvaMain {
                     if (randomMovie.charAt(i) == guessedChar) {
                         updatedMaskedMovie.setCharAt(i, guessedChar);
                     }
+
                 }
                 maskedMovie = updatedMaskedMovie.toString();
+                System.out.println(maskedMovie);
                 points += 10;
             } else {
                 System.out.println("Incorrect guess.");
