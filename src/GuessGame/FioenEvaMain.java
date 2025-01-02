@@ -40,9 +40,6 @@ public class FioenEvaMain {
         System.out.println(" ");
 
 
-
-
-
         while (!out && remainingTurns > 0) {
             System.out.println("Choose an option:");
             System.out.println("[1] Guess a letter");
@@ -89,13 +86,14 @@ public class FioenEvaMain {
     }
 
     public void leerFichero() {
-        File file = new File("movies.txt");
-        try (Scanner scanner = new Scanner(file)) {
+        try { File file = new File("movies.txt");
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 movies.add(scanner.nextLine());
             }
+            scanner.close();
         } catch (Exception e) {
-            System.out.println("Something went wrong while reading the file: " + e.getMessage());
+            System.out.println("File not found");
         }
     }
 
@@ -105,7 +103,7 @@ public class FioenEvaMain {
 
             String guessedLetter = input.nextLine().toLowerCase();
             if (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0))) {
-                System.out.println("Invalid");
+                System.out.println("Invalid. Try again with one letter.");
                 return;
             }
             char guessedChar = guessedLetter.charAt(0);
@@ -138,19 +136,20 @@ public class FioenEvaMain {
         System.out.println("Remaining turns: " + remainingTurns);
         System.out.println("Incorrect letters: " + wrongLetters);
         System.out.println("Points: " + points);
+        System.out.println(" ");
 
         if (!maskedMovie.contains("*")) {
             System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
             System.out.println("Final points: " + points);
+            System.out.println(" ");
             writePlayers();
-            readPlayers();
             out = true;
         }
 
     }
 
     public void guessMovie() {
-        System.out.println("Guess the movie");
+        System.out.println("Guess the movie: "+ maskedMovie);
         String guessedMovie = input.nextLine().toLowerCase();
 
         if (guessedMovie.equals(randomMovie)) {
@@ -163,7 +162,6 @@ public class FioenEvaMain {
         }
         System.out.println("Points: " + points);
         writePlayers();
-        readPlayers();
 
         out = true;
     }
@@ -179,29 +177,52 @@ public class FioenEvaMain {
         players.add(new FioenEvaPlayer("Pro", 250));
         players.add(new FioenEvaPlayer("hi123", 60));
         players.add(new FioenEvaPlayer("happy", 30));
-        players.add(new FioenEvaPlayer("eva123", 100));
+        players.add(new FioenEvaPlayer("eva123", 10));
         players.add(new FioenEvaPlayer("ef", 100));
 
-        System.out.println("Enter your nickname:");
-        String nickname = input.nextLine();
+        readPlayers();
+
+        String nickname;
+        boolean isValidNickname;
+
+        do {
+            System.out.println("Enter your nickname:");
+            nickname = input.nextLine();
+            isValidNickname = true;
+
+            for (FioenEvaPlayer player : players) {
+                if (player.getNickname().equalsIgnoreCase(nickname)) {
+                    System.out.println("Nickname already exists. Please choose a different nickname.");
+                    isValidNickname = false;
+                    break;
+                }
+            }
+        } while (!isValidNickname);
 
         players.add(new FioenEvaPlayer(nickname,points));
 
         players.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
-        if (players.size() > 5) {
-            players = new ArrayList<>(players.subList(0, 5));
-        }
-
-        try (FileOutputStream fileOut = new FileOutputStream("ranking.data");
-             ObjectOutputStream output = new ObjectOutputStream(fileOut)) {
-
-            for (FioenEvaPlayer player : players) {
-                output.writeObject(player);
+        if (players.size() > 5 && players.get(5).getNickname().equalsIgnoreCase(nickname)) {
+            System.out.println("Your score does not qualify for the top 5 ranking.");
+            String finalNickname = nickname;
+            players.removeIf(player -> player.getNickname().equalsIgnoreCase(finalNickname));
+        } else {
+            if (players.size() > 5) {
+                players.subList(5, players.size()).clear();
             }
-            System.out.println("Player added successfully to the ranking.");
-        } catch (Exception e) {
-            System.out.println("Error adding the player to the ranking");
+
+            try (FileOutputStream fileOut = new FileOutputStream("ranking.data");
+                 ObjectOutputStream output = new ObjectOutputStream(fileOut)) {
+
+                for (FioenEvaPlayer player : players) {
+                    output.writeObject(player);
+                }
+                System.out.println("Ranking updated");
+                readPlayers();
+            } catch (Exception e) {
+                System.out.println("Error adding the player to the ranking");
+            }
         }
     }
 
