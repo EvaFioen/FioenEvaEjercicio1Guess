@@ -1,4 +1,4 @@
-package GuessGame;
+package FioenEvaGuessGame;
 
 import java.io.Serializable;
 

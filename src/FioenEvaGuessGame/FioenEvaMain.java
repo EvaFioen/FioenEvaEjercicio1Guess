@@ -1,4 +1,4 @@
-package GuessGame;
+package FioenEvaGuessGame;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,9 +16,8 @@ public class FioenEvaMain {
     public static void main(String[] args) {
         FioenEvaMain programa = new FioenEvaMain();
         programa.inicio();
-
-
     }
+
     Scanner input = new Scanner(System.in);
     boolean out = false;
     final int maxTurns = 10;
@@ -29,10 +28,8 @@ public class FioenEvaMain {
     private final List<Character> wrongLetters = new ArrayList<>();
     private final List<Character> guessedLetters = new ArrayList<>();
 
-
     String randomMovie;
     String maskedMovie;
-
 
     /**
      * Metodo principal del programa.
@@ -50,7 +47,6 @@ public class FioenEvaMain {
         System.out.println("Remaining turns: " + maxTurns);
         System.out.println("Points: " + points);
         System.out.println(" ");
-
 
         while (!out && remainingTurns > 0) {
             try {
@@ -157,7 +153,6 @@ public class FioenEvaMain {
 
     /**
      * Verifica si la entrada proporcionada es una única letra.
-     *
      * @param input Entrada proporcionada por el usuario.
      * @return true si es válida, false en caso contrario.
      */
@@ -168,7 +163,6 @@ public class FioenEvaMain {
     /**
      * Procesa el intento de adivinar una letra, actualizando los resultados y
      * la lista de letras correctas o incorrectas.
-     *
      * @param guessedChar Letra proporcionada por el usuario.
      */
     private void processGuess(char guessedChar) {
@@ -188,7 +182,6 @@ public class FioenEvaMain {
     /**
      * Actualiza el título de la película oculta con las letras adivinadas
      * correctamente.
-     *
      * @param guessedChar Letra correctamente adivinada.
      */
     private void updateMaskedMovie(char guessedChar) {
@@ -223,14 +216,14 @@ public class FioenEvaMain {
         if (guessedMovie.equals(randomMovie)) {
             System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
             points += 20;
+            System.out.println("Final points: " + points);
+            writePlayers();
+            readPlayers();
         } else {
             System.out.println("Incorrect guess. Game over!");
             System.out.println("The movie was: " + randomMovie);
             points -= 20;
         }
-        System.out.println("Points: " + points);
-        writePlayers();
-        readPlayers();
         out = true;
     }
 
@@ -241,9 +234,9 @@ public class FioenEvaMain {
         System.out.println("The movie was: " + randomMovie);
         out = true;
     }
+
     /**
      * Crea un ranking predeterminado y lo guarda en "ranking.data".
-     *
      * @return Lista con jugadores por defecto.
      */
     public ArrayList<FioenEvaPlayer> defaultRanking() {
@@ -253,6 +246,8 @@ public class FioenEvaMain {
         defaultPlayers.add(new FioenEvaPlayer("happy", 30));
         defaultPlayers.add(new FioenEvaPlayer("eva123", 10));
         defaultPlayers.add(new FioenEvaPlayer("ef", 100));
+
+        defaultPlayers.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
 
         try (FileOutputStream fileOut = new FileOutputStream("ranking.data");
                  ObjectOutputStream output = new ObjectOutputStream(fileOut)) {
@@ -271,6 +266,7 @@ public class FioenEvaMain {
     public void writePlayers() {
         ArrayList<FioenEvaPlayer> players = defaultRanking();
         readPlayers();
+
         String nickname;
         boolean isValidNickname;
         do {
@@ -307,7 +303,7 @@ public class FioenEvaMain {
                     output.writeObject(player);
                 }
                 System.out.println("Ranking updated");
-                readPlayers();
+
             } catch (Exception e) {
                 System.out.println("Error adding the player to the ranking");
             }
@@ -329,16 +325,14 @@ public class FioenEvaMain {
         try (FileInputStream fileIn = new FileInputStream(file);
              ObjectInputStream input = new ObjectInputStream(fileIn)) {
 
-            System.out.println("Ranking:");
+            System.out.println("Ranking of the top 5 players:");
             while (true) {
                 try {
                     FioenEvaPlayer player = (FioenEvaPlayer) input.readObject();
                     System.out.println(player);
                 } catch (EOFException e) {
-                    // Expected when reaching the end of the file - stop reading
                     break;
                 } catch (ClassNotFoundException | IOException e) {
-                    // Unexpected exceptions
                     System.out.println("Error while reading player data: " + e.getMessage());
                     break;
                 }
