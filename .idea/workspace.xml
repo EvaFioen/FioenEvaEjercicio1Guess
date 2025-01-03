@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0244079e-6910-4bb8-a85f-114dfa76fe54" name="Changes" comment="6 commit">
+    <list default="true" id="0244079e-6910-4bb8-a85f-114dfa76fe54" name="Changes" comment="7 commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ranking.data" beforeDir="false" afterPath="$PROJECT_DIR$/ranking.data" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GuessGame/FioenEvaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GuessGame/FioenEvaMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GuessGame/FioenEvaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GuessGame/FioenEvaPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735844500928</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="7 commit">
+      <option name="closed" value="true" />
+      <created>1735859738124</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1735859738124</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -138,6 +146,7 @@
     <MESSAGE value="4 commit" />
     <MESSAGE value="5 commit" />
     <MESSAGE value="6 commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="6 commit" />
+    <MESSAGE value="7 commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="7 commit" />
   </component>
 </project>

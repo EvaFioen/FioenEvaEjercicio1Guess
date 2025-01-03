@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
-
+/**
+ * Clase principal del juego para adivinar el nombre de la pelicula.
+ * Permite al jugador adivinar letras o el título de una película, gestionar intentos,
+ * y actualizar un ranking basado en las puntuaciones.
+ */
 public class FioenEvaMain {
     public static void main(String[] args) {
         FioenEvaMain programa = new FioenEvaMain();
@@ -25,6 +29,10 @@ public class FioenEvaMain {
 
     String randomMovie;
     String maskedMovie;
+
+    /**
+     * Metodo principal del programa.
+     */
 
     public void inicio() {
         leerFichero();
@@ -78,13 +86,20 @@ public class FioenEvaMain {
             salirJuego();
         }
     }
-
+    /**
+     * Selecciona aleatoriamente una película del archivo movies.txt.
+     *
+     * @param movies Lista de títulos de películas.
+     * @return Un título de película seleccionado aleatoriamente.
+     */
     public String getRandomMovie(List<String> movies) {
         Random random = new Random();
         int randomIndex = random.nextInt(movies.size());
         return movies.get(randomIndex);
     }
-
+    /**
+     * Lee el archivo movies.txt
+     */
     public void leerFichero() {
         try { File file = new File("movies.txt");
             Scanner scanner = new Scanner(file);
@@ -97,57 +112,94 @@ public class FioenEvaMain {
         }
     }
 
+    /**
+     * Adivina una letra del título de la película. Actualiza la puntuación,
+     * los intentos restantes y la lista de letras incorrectas.
+     */
     public void guessLetter() {
         if (remainingTurns > 0) {
-            System.out.println("Guess the letter of the movie " + maskedMovie);
+            System.out.println("Guess the letter of the movie: " + maskedMovie);
 
             String guessedLetter = input.nextLine().toLowerCase();
-            if (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0))) {
-                System.out.println("Invalid. Try again with one letter.");
+            if (!validateInput(guessedLetter)) {
+                System.out.println("Invalid input. Try again.");
                 return;
             }
-            char guessedChar = guessedLetter.charAt(0);
 
+            char guessedChar = guessedLetter.charAt(0);
             if (guessedLetters.contains(guessedChar) || wrongLetters.contains(guessedChar)) {
                 System.out.println("You've already guessed that letter. Try again.");
                 return;
             }
-            if (randomMovie.contains(String.valueOf(guessedChar))) {
-                System.out.println("Good guess!");
-                guessedLetters.add(guessedChar);
 
-                StringBuilder updatedMaskedMovie = new StringBuilder(maskedMovie);
-                for (int i = 0; i < randomMovie.length(); i++) {
-                    if (randomMovie.charAt(i) == guessedChar) {
-                        updatedMaskedMovie.setCharAt(i, guessedChar);
-                    }
+            processGuess(guessedChar);
+            displayUpdatedState();
 
-                }
-                maskedMovie = updatedMaskedMovie.toString();
-                System.out.println(maskedMovie);
-                points += 10;
-            } else {
-                System.out.println("Incorrect guess.");
-                wrongLetters.add(guessedChar);
-                points -= 10;
+            if (!maskedMovie.contains("*")) {
+                System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
+                System.out.println("Final points: " + points);
+                writePlayers();
+                out = true;
             }
         }
+    }
+    /**
+     * Verifica si la entrada proporcionada es una única letra.
+     * @param input Entrada proporcionada por el usuario.
+     * @return true si es válida, false en caso contrario.
+     */
+    private boolean validateInput(String input) {
+        return input.length() == 1 && Character.isLetter(input.charAt(0));
+    }
+
+    /**
+     * Procesa el intento de adivinar una letra, actualizando los resultados y
+     * la lista de letras correctas o incorrectas.
+     * @param guessedChar Letra proporcionada por el usuario.
+     */
+    private void processGuess(char guessedChar) {
+        if (randomMovie.contains(String.valueOf(guessedChar))) {
+            System.out.println("Good guess!");
+            guessedLetters.add(guessedChar);
+            updateMaskedMovie(guessedChar);
+            points += 10;
+        } else {
+            System.out.println("Incorrect guess.");
+            wrongLetters.add(guessedChar);
+            points -= 10;
+        }
         remainingTurns--;
+    }
+
+    /**
+     * Actualiza el título de la película oculta con las letras adivinadas
+     * correctamente.
+     * @param guessedChar Letra correctamente adivinada.
+     */
+    private void updateMaskedMovie(char guessedChar) {
+        StringBuilder updatedMaskedMovie = new StringBuilder(maskedMovie);
+        for (int i = 0; i < randomMovie.length(); i++) {
+            if (randomMovie.charAt(i) == guessedChar) {
+                updatedMaskedMovie.setCharAt(i, guessedChar);
+            }
+        }
+        maskedMovie = updatedMaskedMovie.toString();
+        System.out.println(maskedMovie);
+    }
+
+    /**
+     * Muestra el estado actualizado del juego: intentos restantes, puntuación,
+     * y letras incorrectas.
+     */
+    private void displayUpdatedState() {
         System.out.println("Remaining turns: " + remainingTurns);
         System.out.println("Incorrect letters: " + wrongLetters);
         System.out.println("Points: " + points);
         System.out.println(" ");
-
-        if (!maskedMovie.contains("*")) {
-            System.out.println("Congratulations! You've guessed the movie: " + randomMovie);
-            System.out.println("Final points: " + points);
-            System.out.println(" ");
-            writePlayers();
-            out = true;
-        }
-
     }
-
+    /**
+     * Finaliza el juego mostrando el título correcto y los resultados finales.
+     */
     public void guessMovie() {
         System.out.println("Guess the movie: "+ maskedMovie);
         String guessedMovie = input.nextLine().toLowerCase();
@@ -166,11 +218,17 @@ public class FioenEvaMain {
         out = true;
     }
 
+    /**
+     * Finaliza el juego mostrando el título correcto de la película.
+     */
     public void salirJuego() {
         System.out.println("The movie was: " + randomMovie);
         out = true;
     }
 
+    /**
+     * Registra a los jugadores y actualiza la tabla de clasificación (ranking).
+     */
     public void writePlayers() {
         ArrayList<FioenEvaPlayer> players = new ArrayList<>();
 
@@ -179,7 +237,6 @@ public class FioenEvaMain {
         players.add(new FioenEvaPlayer("happy", 30));
         players.add(new FioenEvaPlayer("eva123", 10));
         players.add(new FioenEvaPlayer("ef", 100));
-
         readPlayers();
 
         String nickname;
@@ -226,6 +283,9 @@ public class FioenEvaMain {
         }
     }
 
+    /**
+    * Lee y muestra la tabla de clasificación actual (ranking).
+    */
     public void readPlayers() {
         try (FileInputStream fileIn = new FileInputStream("ranking.data");
              ObjectInputStream input = new ObjectInputStream(fileIn)) {
@@ -243,6 +303,7 @@ public class FioenEvaMain {
         } catch (Exception e) {
             System.out.println("Error reading the file");
         }
+        input.close();
     }
 }
 

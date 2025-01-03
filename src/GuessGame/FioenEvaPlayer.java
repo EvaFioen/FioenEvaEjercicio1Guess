@@ -3,8 +3,8 @@ package GuessGame;
 import java.io.Serializable;
 
 public class FioenEvaPlayer implements Serializable {
-    private String nickname;
-    private int score;
+    private final String nickname;
+    private final int score;
 
     public FioenEvaPlayer(String nickname, int score){
         this.nickname = nickname;
@@ -14,17 +14,10 @@ public class FioenEvaPlayer implements Serializable {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     @Override
     public String toString() {
