@@ -33,14 +33,13 @@ public class FioenEvaMain {
     /**
      * Metodo principal del programa.
      */
-
     public void inicio() {
         leerFichero();
 
         randomMovie = getRandomMovie(movies).toLowerCase();
         maskedMovie = randomMovie.replaceAll("[a-zA-Z]", "*");
 
-        System.out.println("Guess the movie");
+        System.out.println("Welcome to the game: Guess the movie! 🎬🎬🎬");
         System.out.println("You are guessing: " + maskedMovie);
         System.out.println("The movie title has " + randomMovie.length() + " characters (including spaces and punctuation)");
         System.out.println("Remaining turns: " + maxTurns);
@@ -66,6 +65,7 @@ public class FioenEvaMain {
                             guessMovie();
                             break;
                         case 3:
+                            System.out.println("You have exited the game.");
                             salirJuego();
                             break;
                         default:
