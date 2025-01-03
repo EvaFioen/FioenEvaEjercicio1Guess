@@ -26,7 +26,6 @@ public class FioenEvaPlayer implements Serializable {
         return score;
     }
 
-
     @Override
     public String toString() {
         return nickname + " - " + score;
