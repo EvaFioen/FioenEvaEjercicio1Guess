@@ -77,7 +77,7 @@ public class FioenEvaMain {
                     input.nextLine();
                 }
             } catch (Exception e) {
-                System.out.println("An unexpected error occurred: " + e.getMessage());
+                System.out.println("An unexpected error occurred. Try again!" );
                 input.nextLine();
             }
         }
