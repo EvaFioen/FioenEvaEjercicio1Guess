@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0244079e-6910-4bb8-a85f-114dfa76fe54" name="Changes" comment="final commits">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ranking.data" beforeDir="false" afterPath="$PROJECT_DIR$/ranking.data" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GuessGame/FioenEvaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FioenEvaGuessGame/FioenEvaMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GuessGame/FioenEvaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FioenEvaGuessGame/FioenEvaPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735911629173</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="final commits">
+      <option name="closed" value="true" />
+      <created>1735913461469</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1735913461469</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
